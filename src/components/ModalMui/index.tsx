@@ -39,11 +39,11 @@ export function ModalMui({
             </span>
           </div>
           <div>
-            {Object.values(pokemonDetail.types).map((typeObj) => {
+            {Object.values(pokemonDetail.types).map((typeObj, index) => {
               const typeName = typeObj.type.name as keyof typeof defaultTheme
               return (
                 <ButtonType
-                  key={pokemonDetail.id}
+                  key={index}
                   $typePoke={typeName}
                   disabled
                 >
@@ -56,16 +56,16 @@ export function ModalMui({
         <S.StatsContainer>
           <h2>Stats</h2>
           <div>
-            {pokemonDetail.stats.map((stat) => (
-              <span key={pokemonDetail.id}>{stat.stat.name}: <strong>{stat.base_stat}</strong></span>
+            {pokemonDetail.stats.map((stat, index) => (
+              <span key={index}>{stat.stat.name}: <strong>{stat.base_stat}</strong></span>
             ))}
           </div>
         </S.StatsContainer>
         <S.HabilidadesContainer>
           <h2>Habilidades</h2>
           <div>
-            {pokemonDetail.abilities.map((ability) => (
-              <span key={pokemonDetail.id}>{ability.ability.name}</span>
+            {pokemonDetail.abilities.map((ability, index) => (
+              <span key={index}>{ability.ability.name}</span>
             ))}
           </div>
         </S.HabilidadesContainer>

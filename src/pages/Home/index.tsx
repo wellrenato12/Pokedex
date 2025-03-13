@@ -1,34 +1,27 @@
-import { FormEvent, useEffect, useState } from "react"
+import { FormEvent, useContext, useEffect, useState } from "react"
 import * as S from './styles'
 import { api } from "../../lib/axios"
 import { ButtonType } from "../../components/ButtonType"
 import { defaultTheme } from "../../styles/themes/default"
 import { ButtonMui } from "../../components/ButtonMui"
 import { ChevronDown } from 'lucide-react';
-import { CardPokemon } from "../../components/CardPokemon"
-import { Details } from "../../Interfaces/Details"
 import { Info } from "../../Interfaces/Info"
-import { PokemonUrl } from "../../Interfaces/Pokemon"
 import { Types } from "../../Interfaces/Types"
+import { PokemonContext } from "../../context/PokemonContext"
+import { GridPokemon } from "../../components/GridPokemon"
 
 export function Home() {
-  const [pokemons, setPokemons] = useState<PokemonUrl[]>([])
-  const [pokemonInfos, setPokemonInfos] = useState<Info[]>([])
   const [filteredPokemons, setFilteredPokemons] = useState<Info[]>([])
   const [types, setTypes] = useState<Types[]>([])
   const [name, setName] = useState("")
   const [valueButton, setValueButton] = useState('ID ASC')
-  const [pokemonDetails, setPokemonDetails] = useState<Details[]>([])
 
-  useEffect(() => {
-    getPokemons()
-  }, [])
-
-  useEffect(() => {
-    if (pokemons.length > 0) {
-      getPokemonDetails()
-    }
-  }, [pokemons])
+  const {
+    favoritePokemons,
+    pokemonDetails,
+    pokemonInfos,
+    getPokemonDetails
+  } = useContext(PokemonContext)
 
   useEffect(() => {
     getTypes()
@@ -42,20 +35,9 @@ export function Home() {
     }
   }, [name])
 
-  async function getPokemons() {
-    const response = await api.get('/pokemon?limit=151&offset=0')
-    setPokemons(response.data.results)
-  }
-
-  async function getPokemonDetails() {
-    const detailsPromises = pokemons.map((pokemon) => (
-      api.get(pokemon.url).then((response) => response.data)
-    ))
-
-    const details = await Promise.all(detailsPromises)
-    setPokemonInfos(details)
-    setPokemonDetails(details)
-  }
+  useEffect(() => {
+    localStorage.setItem("favoritePokemons", JSON.stringify(favoritePokemons));
+  }, [favoritePokemons]);
 
   async function getTypes() {
     const response = await api.get('/type')
@@ -189,25 +171,15 @@ export function Home() {
         </S.ContainerButtonReset>
       </S.Buttons>
 
-      <S.GridPokemons>
-        {(filteredPokemons.length > 0 ? filteredPokemons : pokemonInfos).map((pokemon) => {
-          const typeName = pokemon.types[0].type.name as keyof typeof defaultTheme
-          const pokemonDetail = pokemonDetails.find((pokemonDetail) => pokemonDetail.id === pokemon.id)
+      <a href="/favorites">Lista de favoritos</a>
 
-          if (!pokemonDetail) {
-            return null
-          }
-
-          return (
-            <CardPokemon
-              pokemon={pokemon}
-              typeName={typeName}
-              key={pokemon.id}
-              pokemonDetail={pokemonDetail}
-            />
-          )
-        })}
-      </S.GridPokemons>
+      <GridPokemon
+        filteredPokemons={filteredPokemons}
+        pokemonInfos={pokemonInfos}
+        pokemonDetails={pokemonDetails}
+        favoritePokemons={favoritePokemons}
+        isFavoritesPage={false}
+      />
     </S.Container>
   )
 }
