@@ -171,7 +171,9 @@ export function Home() {
         </S.ContainerButtonReset>
       </S.Buttons>
 
-      <a href="/favorites">Lista de favoritos</a>
+      <S.FavoritesLink href="/favorites">
+        Lista de favoritos
+      </S.FavoritesLink>
 
       <GridPokemon
         filteredPokemons={filteredPokemons}

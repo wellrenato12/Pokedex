@@ -42,7 +42,16 @@ export const SearchPokemon = styled.div`
 export const Buttons = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 2rem;
+  margin: 2rem 0 1rem;
+`
+
+export const FavoritesLink = styled.a`
+  font-size: 1.25rem;
+  transition: 0.2s ease-in-out;
+
+  &:hover {
+    color: red;
+  }
 `
 
 export const ContainerButtonsType = styled.div`

@@ -15,13 +15,16 @@ export function Favorites() {
         <h1>Lista de pokemons favoritos</h1>
         <a href="/">Voltar</a>
       </div>
-      <GridPokemon
-        filteredPokemons={[]}
-        pokemonInfos={[]}
-        pokemonDetails={pokemonDetails}
-        favoritePokemons={favoritePokemons}
-        isFavoritesPage={true}
-      />
+      {favoritePokemons.length > 0 ? (
+        <GridPokemon
+          filteredPokemons={[]}
+          pokemonInfos={[]}
+          pokemonDetails={pokemonDetails}
+          favoritePokemons={favoritePokemons}
+          isFavoritesPage={true}
+        />
+      ) : <h2>Você ainda não adicionou nenhum pokemon aos favoritos.</h2>}
     </S.Container>
   )
 }
+
