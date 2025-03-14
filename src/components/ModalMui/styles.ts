@@ -1,6 +1,7 @@
 import Modal, { ModalProps } from '@mui/material/Modal';
 import styled from 'styled-components';
 import { X } from 'lucide-react';
+import { motion } from 'motion/react';
 
 
 export const ModalMuiContainer = styled(Modal)<ModalProps>(() => ({
@@ -11,7 +12,7 @@ export const ModalMuiContainer = styled(Modal)<ModalProps>(() => ({
   }
 }));
 
-export const ModalMuiContent = styled.div`
+export const ModalMuiContent = styled(motion.div)`
   background-color: #E5E7EB;
   border-radius: .75rem;
   border: 1rem solid #4B5563;
@@ -23,7 +24,7 @@ export const ModalMuiContent = styled.div`
   height: 36rem;
   width: 24rem;
 
-  transform: translate(-50%, -50%);
+  /* transform: translate(-50%, -50%); */
 `
 
 export const ImageContainer = styled.div`

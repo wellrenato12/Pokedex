@@ -18,7 +18,8 @@ export const Container = styled.div`
     }
   }
 
-  h2 {
+  h3 {
+    font-size: 1.5rem;
     text-align: center;
     margin: 5rem auto
   }

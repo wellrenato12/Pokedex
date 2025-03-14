@@ -23,8 +23,7 @@ export function Favorites() {
           favoritePokemons={favoritePokemons}
           isFavoritesPage={true}
         />
-      ) : <h2>Você ainda não adicionou nenhum pokemon aos favoritos.</h2>}
+      ) : <h3>Você ainda não adicionou nenhum pokemon aos favoritos.</h3>}
     </S.Container>
   )
 }
-
