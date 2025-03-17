@@ -3,6 +3,7 @@ import { PokemonContext } from "../../context/PokemonContext"
 import { GridPokemon } from "../../components/GridPokemon";
 import * as S from './styles'
 import { ThemeContext } from "../../context/ThemeContext";
+import { Header } from "../../components/Header";
 
 export function Favorites() {
   const {
@@ -14,6 +15,7 @@ export function Favorites() {
 
   return (
     <S.Container $themeMode={theme}>
+      <Header />
       <div>
         <h1>Lista de pokemons favoritos</h1>
         <a href="/">Voltar</a>
