@@ -2,6 +2,7 @@ import { useContext } from "react"
 import { PokemonContext } from "../../context/PokemonContext"
 import { GridPokemon } from "../../components/GridPokemon";
 import * as S from './styles'
+import { ThemeContext } from "../../context/ThemeContext";
 
 export function Favorites() {
   const {
@@ -9,8 +10,10 @@ export function Favorites() {
     pokemonDetails,
   } = useContext(PokemonContext)
 
+  const { theme } = useContext(ThemeContext)
+
   return (
-    <S.Container>
+    <S.Container $themeMode={theme}>
       <div>
         <h1>Lista de pokemons favoritos</h1>
         <a href="/">Voltar</a>

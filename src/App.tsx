@@ -1,24 +1,24 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import { Home } from "./pages/Home";
-import './styles/global.css'
-import { ThemeProvider } from "styled-components";
-import { defaultTheme } from "./styles/themes/default";
 import { ToastContainer } from "react-toastify";
 import { Favorites } from "./pages/Favorites";
 import { PokemonProvider } from "./context/PokemonContext";
+import { ThemeProviderComponent } from "./context/ThemeContext";
+import { GlobalStyle } from "./styles/global";
 
 export function App() {
   return (
     <PokemonProvider>
-      <ThemeProvider theme={defaultTheme}>
+      <ThemeProviderComponent>
+        <GlobalStyle />
         <ToastContainer />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/favorites" element={<Favorites />} />
+            <Route path="/favoritos" element={<Favorites />} />
           </Routes>
         </BrowserRouter>
-      </ThemeProvider>
+      </ThemeProviderComponent>
     </PokemonProvider>
   )
 }

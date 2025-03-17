@@ -1,5 +1,7 @@
+import { Menu, MenuItem } from '@mui/material';
+import { ReactNode, useContext, useState } from 'react';
+import { ThemeContext } from '../../context/ThemeContext';
 import * as S from './styles'
-import { ReactNode, useState } from 'react';
 
 interface ButtonMuiProps {
   children: ReactNode;
@@ -20,6 +22,7 @@ export function ButtonMui({
 }: ButtonMuiProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { theme } = useContext(ThemeContext)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -59,7 +62,8 @@ export function ButtonMui({
 
   return (
     <S.Container>
-      <S.ButtonMui
+      <S.MenuButton
+        $themeMode={theme}
         id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
@@ -69,20 +73,20 @@ export function ButtonMui({
         onClick={handleClick}
       >
         {children}
-      </S.ButtonMui>
-      <S.MenuMui
+      </S.MenuButton>
+      <Menu
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
       >
-        <S.MenuItemMui onClick={() => handleMenuItemClick('ID ASC')}>ID ASC</S.MenuItemMui>
-        <S.MenuItemMui onClick={() => handleMenuItemClick('ID DESC')}>ID DESC</S.MenuItemMui>
-        <S.MenuItemMui onClick={() => handleMenuItemClick('A-Z')}>A-Z</S.MenuItemMui>
-        <S.MenuItemMui onClick={() => handleMenuItemClick('Z-A')}>Z-A</S.MenuItemMui>
-        <S.MenuItemMui onClick={() => handleMenuItemClick('Maior EXP')}>Maior EXP</S.MenuItemMui>
-        <S.MenuItemMui onClick={() => handleMenuItemClick('Menor EXP')}>Menor EXP</S.MenuItemMui>
-      </S.MenuMui>
+        <MenuItem onClick={() => handleMenuItemClick('ID ASC')}>ID ASC</MenuItem>
+        <MenuItem onClick={() => handleMenuItemClick('ID DESC')}>ID DESC</MenuItem>
+        <MenuItem onClick={() => handleMenuItemClick('A-Z')}>A-Z</MenuItem>
+        <MenuItem onClick={() => handleMenuItemClick('Z-A')}>Z-A</MenuItem>
+        <MenuItem onClick={() => handleMenuItemClick('Maior EXP')}>Maior EXP</MenuItem>
+        <MenuItem onClick={() => handleMenuItemClick('Menor EXP')}>Menor EXP</MenuItem>
+      </Menu>
     </S.Container>
   );
 }

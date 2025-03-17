@@ -1,9 +1,39 @@
 import styled from "styled-components";
+import { ThemeModeProps } from "../../Interfaces/ThemeMode";
 
 export const Container = styled.div`  
   max-width: 1024px;
   margin: auto;
 `
+
+export const ContainerImage = styled.div`
+  position: relative;
+`
+
+export const ThemeToggleButton = styled.button<ThemeModeProps>`
+  position: absolute;
+  top: -30px;
+  right: -10px;
+  background-color: ${({ $themeMode }) => $themeMode === "light" ? "#111827" : "#F9FAFB"};
+  color: ${({ $themeMode }) => ($themeMode === "light" ? "#F9FAFB" : "#111827")};
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    background-color: ${({ $themeMode }) =>
+      $themeMode === "light" ? "#374151" : "#E5E7EB"};
+  }
+`;
 
 export const ImagePoke = styled.img`
   display: flex;
@@ -11,7 +41,7 @@ export const ImagePoke = styled.img`
   margin: 4rem auto;
 `
 
-export const SearchPokemon = styled.div`
+export const SearchPokemon = styled.div<ThemeModeProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,8 +49,8 @@ export const SearchPokemon = styled.div`
 
   padding: 2rem;
   border-radius: 1rem;
-  color: white;
-  background-color: #313131;
+  background-color: ${({ $themeMode }) => $themeMode === "light" ? "#111827" : "#F9FAFB"};
+  color: ${({ $themeMode }) => ($themeMode === "light" ? "#F9FAFB" : "#111827")};
   width: 100%;
 
   input {
@@ -30,10 +60,11 @@ export const SearchPokemon = styled.div`
     border-radius: 5px;
     outline: none;
     font-size: 18px;
-    color: black;
+    background-color: ${({ $themeMode }) => $themeMode === "light" ? "#F9FAFB" : "#111827"};
+    color: ${({ $themeMode }) => ($themeMode === "light" ? "#111827" : "#F9FAFB")};
 
     &::placeholder {
-      color: gray;
+      color: ${({ $themeMode }) => ($themeMode === "light" ? "#111827" : "#F9FAFB")};
       opacity: 0.75;
     }
   }
@@ -45,12 +76,13 @@ export const Buttons = styled.div`
   margin: 2rem 0 1rem;
 `
 
-export const FavoritesLink = styled.a`
+export const FavoritesLink = styled.a<ThemeModeProps>`
   font-size: 1.25rem;
   transition: 0.2s ease-in-out;
+  color: ${({ $themeMode }) => ($themeMode === "light" ? "#111827" : "#F9FAFB")};
 
   &:hover {
-    color: red;
+    opacity: 90%;
   }
 `
 
@@ -62,12 +94,11 @@ export const ContainerButtonsType = styled.div`
   }
 `
 
-export const ContainerButtonReset = styled.div`
+export const ContainerButtonReset = styled.div<ThemeModeProps>`
   display: flex;
   flex-direction: column;
   gap: 1rem;
   border: none;
-  background-color: transparent;
 
   width: 11rem;
 
@@ -77,9 +108,9 @@ export const ContainerButtonReset = styled.div`
     align-items: center;
     padding: 10px 15px;
     border-radius: 5px;
-    background-color: black;
+    background-color: ${({ $themeMode }) => $themeMode === "light" ? "#111827" : "#F9FAFB"};
+    color: ${({ $themeMode }) => ($themeMode === "light" ? "#F9FAFB" : "#111827")};
     font-family: "VT323", sans-serif;
-    color: white;
     height: 3rem;
     font-size: 1rem;
     cursor: pointer;

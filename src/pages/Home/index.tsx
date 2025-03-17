@@ -4,11 +4,12 @@ import { api } from "../../lib/axios"
 import { ButtonType } from "../../components/ButtonType"
 import { defaultTheme } from "../../styles/themes/default"
 import { ButtonMui } from "../../components/ButtonMui"
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Moon, SunMoon } from 'lucide-react';
 import { Info } from "../../Interfaces/Info"
 import { Types } from "../../Interfaces/Types"
 import { PokemonContext } from "../../context/PokemonContext"
 import { GridPokemon } from "../../components/GridPokemon"
+import { ThemeContext } from "../../context/ThemeContext"
 
 export function Home() {
   const [filteredPokemons, setFilteredPokemons] = useState<Info[]>([])
@@ -22,6 +23,8 @@ export function Home() {
     pokemonInfos,
     getPokemonDetails
   } = useContext(PokemonContext)
+
+  const { theme, toggleTheme } = useContext(ThemeContext)
 
   useEffect(() => {
     getTypes()
@@ -125,9 +128,21 @@ export function Home() {
 
   return (
     <S.Container>
-      <S.ImagePoke src="https://assets.website-files.com/62c1627eee0defc3a1256898/62cf234679dbabe18fa50a1e_pokeapi_256%201.svg" alt="PokéAPI" />
-
-      <S.SearchPokemon>
+      <S.ContainerImage>
+        <S.ImagePoke src="https://assets.website-files.com/62c1627eee0defc3a1256898/62cf234679dbabe18fa50a1e_pokeapi_256%201.svg" alt="PokéAPI" />
+        <S.ThemeToggleButton $themeMode={theme} onClick={toggleTheme}>
+          {theme === "light" ? (
+            <>
+              Dark mode <Moon />
+            </>
+          ) : (
+            <>
+              Light mode <SunMoon />
+            </>
+          )}
+        </S.ThemeToggleButton>
+      </S.ContainerImage>
+      <S.SearchPokemon $themeMode={theme}>
         <input
           onChange={handleSearchPokemon}
           placeholder="Procurar Pokemon"
@@ -154,7 +169,7 @@ export function Home() {
             )
           })}
         </S.ContainerButtonsType>
-        <S.ContainerButtonReset>
+        <S.ContainerButtonReset $themeMode={theme}>
           <button onClick={resetFilter}>
             Limpar Filtro
           </button>
@@ -171,7 +186,7 @@ export function Home() {
         </S.ContainerButtonReset>
       </S.Buttons>
 
-      <S.FavoritesLink href="/favorites">
+      <S.FavoritesLink $themeMode={theme} href="/favoritos">
         Lista de favoritos
       </S.FavoritesLink>
 

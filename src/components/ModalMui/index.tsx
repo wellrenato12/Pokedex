@@ -27,7 +27,6 @@ export function ModalMui({
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.8 }}
         transition={{ duration: 0.4, ease: 'easeOut' }}
-        style={{ position: 'absolute', top: '-90%', left: '-30%' }}
       >
         <S.ImageContainer>
           <img src={pokemonDetail.sprites.front_default} alt="Imagem do Pokemon" />

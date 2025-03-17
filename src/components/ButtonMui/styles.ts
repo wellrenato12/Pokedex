@@ -1,7 +1,9 @@
+import { Button } from "@mui/material";
 import styled from "styled-components";
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+
+interface MenuButtonProps {
+  $themeMode: string
+}
 
 export const Container = styled.div`
   max-width: 11rem;
@@ -9,14 +11,10 @@ export const Container = styled.div`
   background-color: #313131;
 `
 
-export const ButtonMui = styled(Button)`
-  width: 100%;
-`
-
-export const MenuMui = styled(Menu)`
-  padding: 3rem;
-`
-
-export const MenuItemMui = styled(MenuItem)`
-  padding: 3rem;
-`
+export const MenuButton = styled(Button)<MenuButtonProps>`
+  &.MuiButtonBase-root {
+    background-color: ${(props) => (props.$themeMode === 'light' ? 'black' : 'white')};
+    color: ${(props) => (props.$themeMode === 'light' ? 'white' : 'black')};
+    width: 100%;
+  }
+`;

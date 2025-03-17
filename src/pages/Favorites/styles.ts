@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { ThemeModeProps } from "../../Interfaces/ThemeMode";
 
-export const Container = styled.div`  
+export const Container = styled.div<ThemeModeProps>`  
   max-width: 1024px;
   margin: 2rem auto;
 
@@ -12,9 +13,10 @@ export const Container = styled.div`
   a {
     font-size: 1.25rem;
     transition: 0.2s ease-in-out;
+    color: ${({ $themeMode }) => ($themeMode === "light" ? "#111827" : "#F9FAFB")};
 
     &:hover {
-      color: red;
+      opacity: 90%;
     }
   }
 

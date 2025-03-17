@@ -3,13 +3,10 @@ import styled from 'styled-components';
 import { X } from 'lucide-react';
 import { motion } from 'motion/react';
 
-
 export const ModalMuiContainer = styled(Modal)<ModalProps>(() => ({
-  '&.MuiModal-root': {
-    position: 'fixed',
-    top: '50%',
-    left: '50%',
-  }
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 }));
 
 export const ModalMuiContent = styled(motion.div)`
@@ -23,8 +20,6 @@ export const ModalMuiContent = styled(motion.div)`
   justify-content: center;
   height: 36rem;
   width: 24rem;
-
-  /* transform: translate(-50%, -50%); */
 `
 
 export const ImageContainer = styled.div`
