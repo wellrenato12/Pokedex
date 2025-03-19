@@ -3,17 +3,20 @@ import { Info } from "../Interfaces/Info"
 import { Details } from "../Interfaces/Details"
 import { api } from "../lib/axios"
 import { PokemonUrl } from "../Interfaces/Pokemon"
+import { showErrorToast } from "../utils/toastAlert"
 
 interface PokemonContextProps {
   favoritePokemons: Info[]
   pokemonDetails: Details[]
   pokemonInfos: Info[]
+  isLoading: boolean
   addPokemonToFavoritesList: (pokemon: Info) => void
   removePokemonFavoritesList: (id: number) => void
   addPokemonDetails: (pokemon: Details[]) => void
   addPokemonInfo: (pokemonInfos: Info[]) => void
   getPokemonDetails: () => void
   isPokemonFavorited: (id: number) => boolean
+  toggleLoading: (condition: boolean) => void
 }
 
 interface PokemonProviderProps {
@@ -30,6 +33,7 @@ export function PokemonProvider({ children }: PokemonProviderProps) {
   const [pokemonDetails, setPokemonDetails] = useState<Details[]>([])
   const [pokemonInfos, setPokemonInfos] = useState<Info[]>([])
   const [pokemons, setPokemons] = useState<PokemonUrl[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     getPokemons();
@@ -46,19 +50,33 @@ export function PokemonProvider({ children }: PokemonProviderProps) {
   }, [favoritePokemons])
 
   async function getPokemons() {
-    const response = await api.get('/pokemon?limit=151&offset=0');
-    setPokemons(response.data.results);
+    setIsLoading(true)
+    try {
+      const response = await api.get('/pokemon?limit=151&offset=0');
+      setPokemons(response.data.results);
+    } catch (error) {
+      showErrorToast(`Falhar ao carregar os dados! ${error}`)
+    } finally {
+      setIsLoading(true)
+    }
   }
 
   async function getPokemonDetails() {
-    const detailsPromises = pokemons.map((pokemon) =>
-      api.get(pokemon.url).then((response) => response.data)
-    );
+    setIsLoading(true)
+    try {
+      const detailsPromises = pokemons.map((pokemon) =>
+        api.get(pokemon.url).then((response) => response.data)
+      );
 
-    const details = await Promise.all(detailsPromises);
+      const details = await Promise.all(detailsPromises);
 
-    setPokemonInfos(details);
-    setPokemonDetails(details);
+      setPokemonInfos(details);
+      setPokemonDetails(details);
+    } catch (error) {
+      showErrorToast(`Falhar ao carregar os dados! ${error}`)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   function addPokemonToFavoritesList(pokemon: Info) {
@@ -82,6 +100,10 @@ export function PokemonProvider({ children }: PokemonProviderProps) {
     return favoritePokemons.some((fav) => fav.id === id)
   }
 
+  function toggleLoading(condition: boolean) {
+    setIsLoading(condition)
+  }
+
   return (
     <PokemonContext.Provider
       value={{
@@ -94,6 +116,8 @@ export function PokemonProvider({ children }: PokemonProviderProps) {
         addPokemonInfo,
         getPokemonDetails,
         isPokemonFavorited,
+        toggleLoading,
+        isLoading
       }}
     >
       {children}

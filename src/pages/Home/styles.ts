@@ -75,10 +75,13 @@ export const ContainerButtonReset = styled.div<ThemeModeProps>`
     border-radius: 5px;
     background-color: ${({ $themeMode }) => $themeMode === "light" ? "#111827" : "#F9FAFB"};
     color: ${({ $themeMode }) => ($themeMode === "light" ? "#F9FAFB" : "#111827")};
-    font-family: "VT323", sans-serif;
     height: 3rem;
     font-size: 1rem;
     cursor: pointer;
     border: none;
+
+    svg {
+      color: ${({ $themeMode }) => ($themeMode === "light" ? "#F9FAFB" : "#111827")};
+    }
   }
 `

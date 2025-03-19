@@ -20,7 +20,11 @@ export function CardPokemon({
   pokemonDetail,
 }: CardPokemonProps) {
   const [open, setOpen] = useState(false)
-  const { addPokemonToFavoritesList, removePokemonFavoritesList, isPokemonFavorited } = useContext(PokemonContext);
+  const { 
+    addPokemonToFavoritesList, 
+    removePokemonFavoritesList, 
+    isPokemonFavorited
+  } = useContext(PokemonContext);
 
   const isFavorited = isPokemonFavorited(pokemon.id);
 

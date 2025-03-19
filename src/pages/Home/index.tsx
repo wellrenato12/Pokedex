@@ -11,6 +11,8 @@ import { PokemonContext } from "../../context/PokemonContext"
 import { GridPokemon } from "../../components/GridPokemon"
 import { ThemeContext } from "../../context/ThemeContext"
 import { Header } from "../../components/Header"
+import { showErrorToast } from "../../utils/toastAlert"
+import { CircularProgress } from "@mui/material"
 
 export function Home() {
   const [filteredPokemons, setFilteredPokemons] = useState<Info[]>([])
@@ -22,7 +24,9 @@ export function Home() {
     favoritePokemons,
     pokemonDetails,
     pokemonInfos,
-    getPokemonDetails
+    getPokemonDetails,
+    toggleLoading,
+    isLoading
   } = useContext(PokemonContext)
 
   const { theme } = useContext(ThemeContext)
@@ -44,8 +48,15 @@ export function Home() {
   }, [favoritePokemons]);
 
   async function getTypes() {
-    const response = await api.get('/type')
-    setTypes(response.data.results)
+    toggleLoading(false)
+    try {
+      const response = await api.get('/type')
+      setTypes(response.data.results)
+    } catch (error) {
+      showErrorToast(`Falhar ao carregar os dados! ${error}`)
+    } finally {
+      toggleLoading(true)
+    }
   }
 
   function handleSearchPokemon(event: FormEvent<HTMLInputElement>) {
@@ -143,19 +154,28 @@ export function Home() {
       <S.Buttons>
         <S.ContainerButtonsType>
           <p>Filtre por tipo:</p>
-          {types.map((type) => {
-            const typeName = type.name as keyof typeof defaultTheme
-            return (
-              <ButtonType
-                key={type.name}
-                filterPokemonsByType={filterPokemonsByType}
-                $typePoke={typeName}
-                pokemonType={type.name}
-              >
-                {type.name}
-              </ButtonType>
-            )
-          })}
+          {isLoading ? (
+            <CircularProgress
+              sx={{
+                display: 'flex',
+                margin: 'auto',
+              }}
+            />
+          ) : (
+            types.map((type) => {
+              const typeName = type.name as keyof typeof defaultTheme
+              return (
+                <ButtonType
+                  key={type.name}
+                  filterPokemonsByType={filterPokemonsByType}
+                  $typePoke={typeName}
+                  pokemonType={type.name}
+                >
+                  {type.name}
+                </ButtonType>
+              )
+            })
+          )}
         </S.ContainerButtonsType>
         <S.ContainerButtonReset $themeMode={theme}>
           <button onClick={resetFilter}>
@@ -178,13 +198,22 @@ export function Home() {
         Lista de favoritos
       </S.FavoritesLink>
 
-      <GridPokemon
-        filteredPokemons={filteredPokemons}
-        pokemonInfos={pokemonInfos}
-        pokemonDetails={pokemonDetails}
-        favoritePokemons={favoritePokemons}
-        isFavoritesPage={false}
-      />
+      {isLoading ? (
+        <CircularProgress
+          sx={{
+            display: 'flex',
+            margin: '5rem auto',
+          }}
+        />
+      ) : (
+        <GridPokemon
+          filteredPokemons={filteredPokemons}
+          pokemonInfos={pokemonInfos}
+          pokemonDetails={pokemonDetails}
+          favoritePokemons={favoritePokemons}
+          isFavoritesPage={false}
+        />
+      )}
     </S.Container>
   )
 }
